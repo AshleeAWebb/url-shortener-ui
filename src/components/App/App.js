@@ -30,19 +30,22 @@ class App extends Component {
 
   postUrl = (url) => {
     return fetch("http://localhost:3001/api/v1/urls", {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(url)
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        long_url: url.urlToShorten, 
+        title: url.title
       })
-      .then(res => res.json())
-      .then(res =>
-        this.setState({ urls: [...this.state.urls, res] })
-      )
-      .catch(error => {
-        throw new Error("Please try again later");
-      });
+    })
+    .then(res => res.json())
+    .then(res =>
+      this.setState({ urls: [...this.state.urls, res] })
+    )
+    .catch(error => {
+      throw new Error("Please try again later");
+    });
   };
 
   render() {
