@@ -54,6 +54,29 @@ class App extends Component {
       });
   };
 
+  deleteUrl = (id) => {
+    return fetch(`http://localhost:3001/api/v1/urls/${id}`, {
+      method: 'DELETE'
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Please try again later');
+        }
+        console.log('URL deleted successfully.');
+      })
+      .then(() => {
+        this.setState({
+          urls: this.state.urls.filter((url) => url.id !== id),
+          error: ''
+        });
+      })
+      .catch((error) => {
+        console.log('Error deleting URL:', error);
+        this.setState({ error: error.message });
+      });
+  };
+  
+
   render() {
     return (
       <main className="App">
@@ -62,7 +85,7 @@ class App extends Component {
           <UrlForm postUrl={this.postUrl} />
         </header>
 
-        <UrlContainer urls={this.state.urls} />
+        <UrlContainer urls={this.state.urls} deleteUrl={this.deleteUrl}/>
       </main>
     );
   }

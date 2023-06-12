@@ -4,4 +4,6 @@
   margin: 10px;
   padding: 5px;
   background-color: #FFF;
+  width: 30rem;
+  word-wrap: break-word;
 }
