@@ -11,7 +11,8 @@ class UrlForm extends Component {
   }
 
   handleNameChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   }
 
   handleSubmit = e => {
@@ -20,7 +21,7 @@ class UrlForm extends Component {
   }
 
   clearInputs = () => {
-    this.setState({title: '', urlToShorten: ''});
+    this.setState({ title: '', urlToShorten: '' });
   }
 
   render() {
@@ -31,18 +32,18 @@ class UrlForm extends Component {
           placeholder='Title...'
           name='title'
           value={this.state.title}
-          onChange={e => this.handleNameChange(e)}
+          onChange={this.handleNameChange}
         />
 
         <input
           type='text'
           placeholder='URL to Shorten...'
-          name='title'
-          value={this.state.title}
-          onChange={e => this.handleNameChange(e)}
+          name='urlToShorten'
+          value={this.state.urlToShorten}
+          onChange={this.handleNameChange}
         />
 
-        <button onClick={e => this.handleSubmit(e)}>
+        <button onClick={this.handleSubmit}>
           Shorten Please!
         </button>
       </form>

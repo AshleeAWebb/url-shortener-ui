@@ -3,17 +3,32 @@ import './App.css';
 import { getUrls } from '../../apiCalls';
 import UrlContainer from '../UrlContainer/UrlContainer';
 import UrlForm from '../UrlForm/UrlForm';
-
 export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      urls: []
+      urls: [],
     }
   }
 
   componentDidMount() {
+    this.fetchUrls()
   }
+
+  fetchUrls = () => {
+    getUrls()
+      .then(res => {
+        this.setState({
+          urls: res.urls
+        });
+      })
+      .catch(error => {
+        console.log('Error fetching URLs:', error);
+      });
+  };
+
+  postUrl = (url) => {
+    return fetch ("http://localhost:3001/api/v1/urls", )
 
   render() {
     return (
@@ -30,3 +45,4 @@ export class App extends Component {
 }
 
 export default App;
+
