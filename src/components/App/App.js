@@ -35,7 +35,7 @@ class App extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        long_url: url.urlToShorten, 
+        long_url: url.long_url, 
         title: url.title
       })
     })
