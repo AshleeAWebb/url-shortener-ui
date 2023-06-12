@@ -16,23 +16,19 @@ class App extends Component {
   componentDidMount() {
     this.fetchUrls();
   }
-
   fetchUrls = () => {
     getUrls()
       .then(res => {
         this.setState({
-          urls: res.urls
+          urls: res.urls,
+          error: "",
         });
       })
       .catch((error) => {
-        if (error instanceof Error) {
-          this.setState({ error: "Server is down" });
-        } else {
-          this.setState({ error: "Please try again later" });
-        }
+        this.setState({ error: error.message });
       });
   };
-
+  
   postUrl = (url) => {
     return fetch("http://localhost:3001/api/v1/urls", {
       method: 'POST',
@@ -46,20 +42,15 @@ class App extends Component {
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error(`Please try again later`);
-        } else {
-          return response.json();
+          throw new Error("Please try again later");
         }
+        return response.json();
       })
-      .then(res =>
-        this.setState({ urls: [...this.state.urls, res] })
-      )
+      .then(res => {
+        this.setState({ urls: [...this.state.urls, res], error: "" });
+      })
       .catch((error) => {
-        if (error instanceof Error) {
-          this.setState({ error: "Server is down" });
-        } else {
-          this.setState({ error: "Please try again later" });
-        }
+        this.setState({ error: error.message });
       });
   };
 

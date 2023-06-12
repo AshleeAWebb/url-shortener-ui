@@ -51,26 +51,22 @@ describe('Url From', () => {
     cy.get('input[name="title"]').type('Test photo');
     cy.get('input[name="long_url"]').type('https://images.pexels.com/photos/35888/amazing-beautiful-breathtaking-clouds.jpg?auto=compress&cs=tinysrgb&w=1600');
     cy.get('button').click();
-
+  
     cy.wait('@postRequest').then((interception) => {
       expect(interception.response.statusCode).to.eq(200);
       expect(interception.response.body).to.have.property('id', 4);
     });
-
-    cy.get('h3')
-      .contains('Test photo')
-      .should('be.visible');
-    cy.get('a')
-      .contains('http://localhost:3001/useshorturl/4')
-      .should('be.visible');
-    cy.get('p')
-      .contains('https://images.pexels.com/photos/35888/amazing-beautiful-breathtaking-clouds.jpg?auto=compress&cs=tinysrgb&w=1600')
-      .should('be.visible');
+    cy.get('.url').should('have.length', 4);
+    cy.get('.url').last().within(() => {
+      cy.get('h3').should('contain', 'Test photo');
+      cy.get('a').should('have.attr', 'href', 'http://localhost:3001/useshorturl/4');
+      cy.get('a').should('contain', 'http://localhost:3001/useshorturl/4');
+      cy.get('p').should('contain', 'https://images.pexels.com/photos/35888/amazing-beautiful-breathtaking-clouds.jpg?auto=compress&cs=tinysrgb&w=1600');
+    });
   });
 
   it('displays an error message when form is submitted without filling out all fields', () => {
     cy.get('button').click();
     cy.contains('Please fill out all fields').should('be.visible');
   });
-
 });
