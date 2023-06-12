@@ -5,7 +5,6 @@ const UrlContainer = (props) => {
   const handleDelete = (id) => {
     props.deleteUrl(id)
       .then(() => {
-        console.log('URL deleted successfully.');
       })
       .catch((error) => {
         console.log('Error deleting URL:', error);

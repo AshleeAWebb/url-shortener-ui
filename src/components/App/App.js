@@ -62,7 +62,6 @@ class App extends Component {
         if (!response.ok) {
           throw new Error('Please try again later');
         }
-        console.log('URL deleted successfully.');
       })
       .then(() => {
         this.setState({
@@ -71,7 +70,6 @@ class App extends Component {
         });
       })
       .catch((error) => {
-        console.log('Error deleting URL:', error);
         this.setState({ error: error.message });
       });
   };
