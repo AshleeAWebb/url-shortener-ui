@@ -9,6 +9,7 @@ class App extends Component {
     super(props);
     this.state = {
       urls: [],
+      error: "",
     };
   }
 
@@ -23,8 +24,12 @@ class App extends Component {
           urls: res.urls
         });
       })
-      .catch(error => {
-        throw new Error("Please try again later");
+      .catch((error) => {
+        if (error instanceof Error) {
+          this.setState({ error: "Server is down" });
+        } else {
+          this.setState({ error: "Please try again later" });
+        }
       });
   };
 
@@ -35,17 +40,27 @@ class App extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        long_url: url.long_url, 
+        long_url: url.long_url,
         title: url.title
       })
     })
-    .then(res => res.json())
-    .then(res =>
-      this.setState({ urls: [...this.state.urls, res] })
-    )
-    .catch(error => {
-      throw new Error("Please try again later");
-    });
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Please try again later`);
+        } else {
+          return response.json();
+        }
+      })
+      .then(res =>
+        this.setState({ urls: [...this.state.urls, res] })
+      )
+      .catch((error) => {
+        if (error instanceof Error) {
+          this.setState({ error: "Server is down" });
+        } else {
+          this.setState({ error: "Please try again later" });
+        }
+      });
   };
 
   render() {

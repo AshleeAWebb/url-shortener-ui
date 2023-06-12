@@ -6,25 +6,31 @@ class UrlForm extends Component {
     this.props = props;
     this.state = {
       title: '',
-      long_url: ''
+      long_url: '',
+      error: '',
     };
   }
 
   handleNameChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-  }
+  };
 
   handleSubmit = e => {
     e.preventDefault();
     const { title, long_url } = this.state;
-    const url = { title, long_url };
-    this.props.postUrl(url);
-    this.clearInputs();
-  }
+    if (title && long_url) {
+      const url = { title, long_url };
+      this.props.postUrl(url);
+      this.clearInputs();
+    } else {
+      this.setState({ error: 'Please fill out all fields' });
+    }
+  };
+
   clearInputs = () => {
-    this.setState({ title: '', long_url: '' });
-  }
+    this.setState({ title: '', long_url: '', error: '' });
+  };
 
   render() {
     return (
@@ -45,11 +51,13 @@ class UrlForm extends Component {
           onChange={this.handleNameChange}
         />
 
+        {this.state.error && <p>{this.state.error}</p>}
+
         <button onClick={this.handleSubmit}>
           Shorten Please!
         </button>
       </form>
-    )
+    );
   }
 }
 

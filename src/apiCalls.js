@@ -7,4 +7,4 @@ export const getUrls = () => {
         return response.json();
       }
     });
-}
+};

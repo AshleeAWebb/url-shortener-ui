@@ -1,8 +1,8 @@
 describe('Url From', () => {
   beforeEach(() => {
     cy.fixture('url.json').as('urls');
-    cy.intercept('GET', 'http://localhost:3001/api/v1/urls', 
-    { fixture: 'url.json' }).as('getRequest');
+    cy.intercept('GET', 'http://localhost:3001/api/v1/urls',
+      { fixture: 'url.json' }).as('getRequest');
     cy.visit('http://localhost:3000/');
 
     cy.intercept('POST', 'http://localhost:3001/api/v1/urls', {
@@ -32,7 +32,7 @@ describe('Url From', () => {
     cy.get('input[name="long_url"]').should('have.attr', 'type', 'text');
     cy.get('input[name="long_url"]').should('have.attr', 'placeholder', 'URL to Shorten...');
     cy.get('input[name="long_url"]').should('have.value', '');
-  
+
     cy.get('button').should('exist');
     cy.get('button').should('contain', 'Shorten Please!');
   });
@@ -51,12 +51,12 @@ describe('Url From', () => {
     cy.get('input[name="title"]').type('Test photo');
     cy.get('input[name="long_url"]').type('https://images.pexels.com/photos/35888/amazing-beautiful-breathtaking-clouds.jpg?auto=compress&cs=tinysrgb&w=1600');
     cy.get('button').click();
-  
+
     cy.wait('@postRequest').then((interception) => {
       expect(interception.response.statusCode).to.eq(200);
       expect(interception.response.body).to.have.property('id', 4);
     });
-  
+
     cy.get('h3')
       .contains('Test photo')
       .should('be.visible');
@@ -67,4 +67,10 @@ describe('Url From', () => {
       .contains('https://images.pexels.com/photos/35888/amazing-beautiful-breathtaking-clouds.jpg?auto=compress&cs=tinysrgb&w=1600')
       .should('be.visible');
   });
+
+  it('displays an error message when form is submitted without filling out all fields', () => {
+    cy.get('button').click();
+    cy.contains('Please fill out all fields').should('be.visible');
   });
+
+});

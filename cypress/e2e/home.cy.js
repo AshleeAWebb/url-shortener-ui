@@ -11,14 +11,14 @@ describe('Url Home Page', () => {
 
   it('should have existing URLs on the home page', () => {
     cy.get('.url').should('have.length', 3);
-  
+
     cy.get('.url').first().within(() => {
       cy.get('h3').should('contain', 'Awesome photo');
       cy.get('a').should('have.attr', 'href', 'http://localhost:3001/useshorturl/1');
       cy.get('a').should('contain', 'http://localhost:3001/useshorturl/1');
       cy.get('p').should('contain', 'https://images.unsplash.com/photo-1531898418865-480b7090470f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80');
     });
-  
+
     cy.get('.url').last().within(() => {
       cy.get('h3').should('contain', 'Wicked photo');
       cy.get('a').should('have.attr', 'href', 'http://localhost:3001/useshorturl/3');
