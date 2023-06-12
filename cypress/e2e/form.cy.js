@@ -22,19 +22,19 @@ describe('Url From', () => {
 
   it('should have a form with proper inputs', () => {
     cy.get('form').should('exist');
-
+  
     cy.get('input[name="title"]').should('exist');
     cy.get('input[name="title"]').should('have.attr', 'type', 'text');
     cy.get('input[name="title"]').should('have.attr', 'placeholder', 'Title...');
     cy.get('input[name="title"]').should('have.value', '');
-
+  
     cy.get('input[name="long_url"]').should('exist');
     cy.get('input[name="long_url"]').should('have.attr', 'type', 'text');
     cy.get('input[name="long_url"]').should('have.attr', 'placeholder', 'URL to Shorten...');
     cy.get('input[name="long_url"]').should('have.value', '');
-
-    cy.get('button').should('exist');
-    cy.get('button').should('contain', 'Shorten Please!');
+  
+    cy.get('button.form').should('exist');
+    cy.get('button.form').should('contain', 'Shorten Please!');
   });
 
   it('should reflect proper inputs when user fills out form', () => {
@@ -50,7 +50,7 @@ describe('Url From', () => {
   it('should submit the form successfully', () => {
     cy.get('input[name="title"]').type('Test photo');
     cy.get('input[name="long_url"]').type('https://images.pexels.com/photos/35888/amazing-beautiful-breathtaking-clouds.jpg?auto=compress&cs=tinysrgb&w=1600');
-    cy.get('button').click();
+    cy.get('button.form').click(); 
   
     cy.wait('@postRequest').then((interception) => {
       expect(interception.response.statusCode).to.eq(200);
@@ -66,7 +66,7 @@ describe('Url From', () => {
   });
 
   it('displays an error message when form is submitted without filling out all fields', () => {
-    cy.get('button').click();
+    cy.get('button.form').click(); 
     cy.contains('Please fill out all fields').should('be.visible');
   });
 });

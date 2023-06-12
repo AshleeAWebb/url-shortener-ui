@@ -53,7 +53,7 @@ class UrlForm extends Component {
 
         {this.state.error && <p>{this.state.error}</p>}
 
-        <button onClick={this.handleSubmit}>
+        <button className="form" onClick={this.handleSubmit}>
           Shorten Please!
         </button>
       </form>

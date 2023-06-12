@@ -20,7 +20,7 @@ const UrlContainer = (props) => {
           {url.short_url}
         </a>
         <p>{url.long_url}</p>
-        <button onClick={() => handleDelete(url.id)}>Delete</button>
+        <button className="delete" onClick={() => handleDelete(url.id)}>Delete</button>
       </div>
     );
   });
